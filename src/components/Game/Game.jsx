@@ -5,9 +5,9 @@ import { WORDS } from '../../data'
 import GuessInput from '../GuessInput/GuessInput'
 import GuessResults from '../GuessResults/GuessResults'
 import { NUM_OF_GUESSES_ALLOWED } from '../../constants'
-import GameOverBanner from '../GameOverBanner/GameOverBanner'
+import { SadBanner, WonBanner } from '../Banner/Banner'
 
-// Pick a random word on every pageload.
+// Pick a random wsord on every pageload.
 const answer = sample(WORDS)
 // To make debugging easier, we'll log the solution in the console.
 console.info({ answer })
@@ -30,16 +30,13 @@ function Game() {
 	}
 	return (
 		<>
-			<GameOverBanner
-				gameStatus={gameStatus}
-				guesses={guesses}
-				answer={answer}
-			/>
 			<GuessResults guesses={guesses} answer={answer} />
 			<GuessInput
 				gameStatus={gameStatus}
 				handleSubmitGuess={handleSubmitGuess}
 			/>
+			{gameStatus === 'won' && <WonBanner numOfGuesses={guesses.length} />}
+			{gameStatus === 'lost' && <SadBanner answer={answer} />}
 		</>
 	)
 }
